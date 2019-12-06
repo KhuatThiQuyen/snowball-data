@@ -1,0 +1,27 @@
+with open("lee_background.cor.txt","r") as f:
+    data = f.read()
+    f.close()
+#  to sentences:
+sentences = sent_tokenize(data)
+print(sentences[:3])
+# distint word:
+for i, sent in enumerate(sentences):
+    if i % 1000 ==0 :
+        logging.info("PROCESS {0} sentences.".format(i))
+    sentences[i] = clean(sent)
+
+# Save to
+fname = "clean_wiki_corpus.txt"
+with open(fname,'a',encoding = 'utf-8') as f:
+    for sent in sentences:
+        for i in sent:
+            f.write("%s " % i)
+        f.write('\n')
+
+print(len(sentences))
+word_freq = defaultdict(int)
+for sent in sentences:
+    for i in sent:
+        word_freq[i] += 1
+print(len(word_freq))
+sorted(word_freq, key=word_freq.get, reverse=True)[:10]
